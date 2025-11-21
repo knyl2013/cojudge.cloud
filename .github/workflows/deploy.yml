@@ -46,7 +46,4 @@ jobs:
             echo "Running deployment script..."
             ./run.sh
 
-            echo "Cleaning up old unused Docker images..."
-            docker image prune -af
-
             echo "Deployment successful!"
