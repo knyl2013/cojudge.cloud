@@ -6,6 +6,6 @@ export default defineConfig({
 		sveltekit()
 	],
 	server: {
-		allowedHosts: ['cojudge.cloud']
+		allowedHosts: ['cojudge.cloud', 'cojudge.waiyip.life']
 	}
 });
