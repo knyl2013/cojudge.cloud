@@ -147,25 +147,8 @@ class Program
             ensureEntry(currentId, lang, starter);
         }
         
-        // Update lastViewed
-        const now = Date.now();
-        const fkey = fileKey();
-        fileStore.update((s) => {
-            let files = JSON.parse(s[fkey] || '[]') as FileEntry[];
-            // Update all entries for this fileId (or just the current language?)
-            // Usually viewing a file means viewing it in some language.
-            // But the sidebar groups by fileId. So we should probably update all entries for this fileId
-            // OR just the one we are viewing, and the sidebar aggregator picks the max.
-            // The sidebar aggregator (getInitialTabs) picks the max.
-            // So updating just the current language entry is enough.
-            const idx = files.findIndex((x) => x.fileId === currentId && x.language === lang);
-            if (idx >= 0) {
-                files[idx].lastViewed = now;
-            }
-            return { ...s, [fkey]: JSON.stringify(files) };
-        });
-        
-        // Update local tabs state
+        const now = Date.now();        
+
         tabs = tabs.map(t => t.fileId === currentId ? { ...t, lastViewed: now } : t);
 
         await tick();
@@ -665,7 +648,7 @@ class Program
     });
 
     function generateShortId(length: number = 4): string {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
         let result = '';
         for (let i = 0; i < length; i++) {
             result += chars.charAt(Math.floor(Math.random() * chars.length));
